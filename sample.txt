@@ -1,0 +1,4 @@
+Project: AI Document Assistant
+Developer: Keerthana
+Goal: Build a high-performance RAG pipeline using Google Gemini API to query multi-page documents.
+Key Feature: Fast retrieval and exact contextual answers.
