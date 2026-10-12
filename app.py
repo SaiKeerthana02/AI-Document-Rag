@@ -1,4 +1,5 @@
 import os
+import time
 import streamlit as st
 import numpy as np
 import faiss
@@ -55,7 +56,7 @@ def get_embedding(text: str) -> list[float]:
     else:
         raise AttributeError("Failed to extract embedding values.")
 
-def generate_answer(query: str, context: str) -> str:
+def generate_answer(query: str, context: str, max_retries: int = 3) -> str:
     prompt = f"""
 You are an AI Document Assistant. Answer the question accurately using ONLY the provided context.
 If the answer is not present in the context, say: "Document lo ee information ledu."
@@ -66,13 +67,20 @@ If the answer is not present in the context, say: "Document lo ee information le
 --- Question ---
 {query}
 """
-    res = client.models.generate_content(
-        model="gemini-3.8-flash",
-        contents=prompt,
-    )
-    return res.text
+    for attempt in range(max_retries):
+        try:
+            res = client.models.generate_content(
+                model="gemini-3.8-flash",
+                contents=prompt,
+            )
+            return res.text
+        except Exception as e:
+            if "503" in str(e) and attempt < max_retries - 1:
+                time.sleep(2 * (attempt + 1))  # 2s, 4s gap tharuvatha auto retry chesthundi
+                continue
+            raise e
 
-# 3. Sidebar - Document Upload & Processing
+# 3. Sidebar - Document Upload, Processing & Chat Reset
 with st.sidebar:
     st.header("Document Management")
     uploaded_file = st.file_uploader("Upload a PDF or TXT file", type=["pdf", "txt"])
@@ -94,6 +102,11 @@ with st.sidebar:
             st.session_state["current_file"] = uploaded_file.name
             st.session_state["chat_history"] = []
             st.success(f"Indexed {len(chunks)} chunks successfully!")
+
+    st.markdown("---")
+    if st.button("🗑️ Clear Chat History", use_container_width=True):
+        st.session_state["chat_history"] = []
+        st.rerun()
 
 # 4. Chat Interface
 if "chat_history" not in st.session_state:
