@@ -1,38 +1,69 @@
-# 📄 AI Document Assistant (RAG)
+# 📄 AI Document Assistant (RAG Pipeline)
 
-An intelligent Document Question-Answering system built using **Retrieval-Augmented Generation (RAG)**, **Google Gemini 2.5 Flash**, **FAISS Vector Indexing**, and **Streamlit**.
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://saikeerthana-doc-rag.streamlit.app)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)](https://github.com/SaiKeerthana02/AI-Document-Rag)
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Model](https://img.shields.io/badge/LLM-Gemini%202.5%20Flash-4285F4?logo=google)](https://ai.google.dev/)
+[![Vector Store](https://img.shields.io/badge/Vector%20Store-FAISS-0467DF)](https://github.com/facebookresearch/faiss)
 
-The application parses structured PDF/Text documents (such as resumes, reports, and manuals), generates semantic vector embeddings, performs top-k similarity searches, and provides factual, grounded answers using real-time LLM synthesis.
+An intelligent Document Question-Answering application built using **Retrieval-Augmented Generation (RAG)**, **Google Gemini 2.5 Flash**, **FAISS Vector Indexing**, and **Streamlit**.
+
+The application parses complex multi-page PDF/text documents (such as resumes, analytical reports, and manuals), generates high-dimensional semantic embeddings, performs fast similarity vector search, and delivers grounded, hallucination-free answers in real time.
+
+---
+
+## 🌐 Live Demo
+
+Try the live application here:  
+👉 **[saikeerthana-doc-rag.streamlit.app](https://saikeerthana-doc-rag.streamlit.app)**
+
+---
+
+## 💻 Tech Stack
+
+| Category | Tools / Technologies |
+| :--- | :--- |
+| **Language** | Python 3.11 |
+| **User Interface** | Streamlit |
+| **Large Language Model** | Google Gemini 2.5 Flash (`gemini-2.5-flash`) |
+| **Text Embeddings** | Google GenAI Embeddings (`gemini-embedding-001`) |
+| **Vector Database / Index** | FAISS (Facebook AI Similarity Search - `faiss-cpu`) |
+| **PDF Extraction** | `pypdf` |
+| **Configuration & Secrets** | `python-dotenv`, Streamlit Cloud Secrets |
 
 ---
 
 ## 🚀 Key Features
 
 - **Document Ingestion:** Multi-page PDF text extraction powered by `pypdf`.
-- **Chunking Strategy:** 1200-character chunks with 200-character sliding overlap to maintain structural and semantic context.
-- **Vector Search (FAISS):** Embeddings generated via `gemini-embedding-001` and indexed locally with `faiss-cpu (IndexFlatL2)`.
-- **Grounded Generation:** Low-latency, accurate Q&A responses using `gemini-2.5-flash` with explicit hallucination-prevention prompts.
-- **Context Transparency:** Expandable UI drawer displaying retrieved context chunks and relevance scores.
-- **Session Management:** In-memory chat history with a dedicated **Clear Chat** reset action.
+- **Context-Preserving Chunking:** 1200-character windows with a 200-character sliding overlap to maintain structural and semantic coherence across sections.
+- **Vector Search (FAISS):** Embeddings generated via `gemini-embedding-001` and indexed locally in-memory using `faiss-cpu (IndexFlatL2)`.
+- **Grounded Generation:** Low-latency, accurate answers synthesized using `gemini-2.5-flash` with strict anti-hallucination system instructions.
+- **Context Transparency:** Expandable UI viewer displaying retrieved source chunks directly beneath each response.
+- **Session Reset:** Interactive chat history management with an instant **Clear Chat** action.
 
 ---
 
-## 🛠️ Tech Stack
-
-- **Frontend & App Framework:** Streamlit
-- **LLM & Embeddings:** Google GenAI SDK (`gemini-2.5-flash`, `gemini-embedding-001`)
-- **Vector Store:** FAISS (Facebook AI Similarity Search)
-- **PDF Extraction:** `pypdf`
-- **Environment Management:** `python-dotenv`
-
----
-
-## 📂 Project Structure
+## 🛠️ Architecture & Workflow
 
 ```text
-AI-Document-Rag/
-├── app.py              # Main Streamlit application and RAG pipeline
-├── requirements.txt    # Project dependencies
-├── .env                # API keys (ignored in version control)
-├── .gitignore          # Git ignore specifications
-└── README.md           # Project documentation
+[PDF / TXT Document] 
+       │
+       ▼
+[Text Extraction (pypdf)]
+       │
+       ▼
+[Chunking (1200 chars / 200 overlap)]
+       │
+       ▼
+[Embedding Generation (gemini-embedding-001)]
+       │
+       ▼
+[FAISS Vector Store (IndexFlatL2)]
+       │
+       ├─── [User Query] ──► [Query Embedding]
+       ▼                           │
+[Top-k Similarity Search] ◄────────┘
+       │
+       ▼
+[Context + Query Prompt] ──► [Gemini 2.5 Flash] ──► [Grounded Answer + UI]
