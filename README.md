@@ -43,7 +43,7 @@ Try the live application here:
 - **Session Reset:** Interactive chat history management with an instant **Clear Chat** action.
 
 ---
-
+```text
 ## 🛠️ Architecture & Workflow
 
 [PDF / TXT Document] 
@@ -66,17 +66,20 @@ Try the live application here:
        │
        ▼
 [Context + Query Prompt] ──► [Gemini 2.5 Flash] ──► [Grounded Answer + UI]
+```
 
 ---
 
 ## 📂 Project Structure
 
+```text
 AI-Document-Rag/
 ├── app.py              # Main Streamlit app and RAG execution pipeline
 ├── requirements.txt    # Production dependencies for cloud deployment
 ├── .gitignore          # Excludes environment files and caches
 ├── .env                # Local secrets (API keys)
 └── README.md           # Project architecture and setup documentation
+```
 
 ---
 
