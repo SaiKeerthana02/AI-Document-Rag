@@ -46,7 +46,6 @@ Try the live application here:
 
 ## 🛠️ Architecture & Workflow
 
-```text
 [PDF / TXT Document] 
        │
        ▼
@@ -67,3 +66,39 @@ Try the live application here:
        │
        ▼
 [Context + Query Prompt] ──► [Gemini 2.5 Flash] ──► [Grounded Answer + UI]
+
+---
+
+## 📂 Project Structure
+
+AI-Document-Rag/
+├── app.py              # Main Streamlit app and RAG execution pipeline
+├── requirements.txt    # Production dependencies for cloud deployment
+├── .gitignore          # Excludes environment files and caches
+├── .env                # Local secrets (API keys)
+└── README.md           # Project architecture and setup documentation
+
+---
+
+## ⚙️ Local Setup & Run
+
+1. Clone the Repository:
+   git clone https://github.com/SaiKeerthana02/AI-Document-Rag.git
+   cd AI-Document-Rag
+
+2. Create and Activate a Virtual Environment:
+   python -m venv venv
+   # Windows:
+   venv\Scripts\activate
+   # Linux/macOS:
+   source venv/bin/activate
+
+3. Install Dependencies:
+   pip install -r requirements.txt
+
+4. Set Up Environment Variables:
+   Create a .env file in the root directory:
+   GEMINI_API_KEY=your_gemini_api_key_here
+
+5. Start the Application:
+   streamlit run app.py
